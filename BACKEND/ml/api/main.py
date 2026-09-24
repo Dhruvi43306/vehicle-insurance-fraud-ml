@@ -17,8 +17,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-model = joblib.load("../model/vehicle_fraud_pipeline.pkl")
+BASE_DIR = Path(__file__).resolve().parent.parent
+MODEL_PATH = BASE_DIR / "model" / "vehicle_fraud_pipeline.pkl"
 
+model = joblib.load(MODEL_PATH)
 
 class VehicleData(BaseModel):
     age_of_driver: int
