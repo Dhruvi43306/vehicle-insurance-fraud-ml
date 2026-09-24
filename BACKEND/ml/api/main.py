@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import joblib
 import pandas as pd
-
+from pathlib import Path
 app = FastAPI()
 
 app.add_middleware(
@@ -18,10 +18,13 @@ app.add_middleware(
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-MODEL_PATH = BASE_DIR / "model" / "vehicle_fraud_pipeline.pkl"
-
+MODEL_PATH = BASE_DIR / "model" / "vehicle_fraud_final_model.pkl"
 model = joblib.load(MODEL_PATH)
+print("MODEL TYPE:", type(model))
 
+if hasattr(model, "feature_names_in_"):
+    print("MODEL FEATURES:")
+    print(model.feature_names_in_)
 class VehicleData(BaseModel):
     age_of_driver: int
     safety_rating: int

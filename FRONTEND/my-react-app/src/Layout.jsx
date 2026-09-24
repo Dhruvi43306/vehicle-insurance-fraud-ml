@@ -55,13 +55,13 @@ export default function Layout() {
 
           {/* Right Controls */}
           <div className="navbar-controls">
-            <button 
+            {/* <button 
               className="theme-toggle-btn" 
               onClick={toggleTheme} 
               aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
             >
               {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
-            </button>
+            </button> */}
             
             <button 
               className="analyze-cta-btn" 
@@ -105,7 +105,7 @@ export default function Layout() {
             <button 
               className="mobile-analyze-btn" 
               onClick={() => {
-                closeMobileMenu();
+                 closeMobileMenu();
                 navigate('/prediction');
               }}
             >
