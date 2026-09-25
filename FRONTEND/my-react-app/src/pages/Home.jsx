@@ -54,7 +54,7 @@ export default function Home() {
       icon: <GitBranch size={21} />,
     },
     {
-      value: '90.28%',
+      value: '77.74%',
       label: 'Accuracy',
       desc: 'Performance',
       icon: <TrendingUp size={21} />,
@@ -1373,7 +1373,7 @@ export default function Home() {
                     </span>
 
                     <span className="telemetry-value">
-                      Logistic Regression
+                      Grediant Boosting
                     </span>
                   </div>
 

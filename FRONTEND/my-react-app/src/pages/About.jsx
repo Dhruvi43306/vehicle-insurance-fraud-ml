@@ -1194,8 +1194,8 @@ export default function About() {
                 ],
                 [
                   "05",
-                  "Logistic Regression",
-                  "The classification algorithm learns relationships between features and the target.",
+                  "Gradient Boosting",
+                  "gradient boosting classifier maps these relationships iteratively by training subsequent decision trees on the residual errors of the previous trees, progressively refining the decision boundary between features and the target.",
                 ],
                 [
                   "06",
@@ -1276,7 +1276,7 @@ export default function About() {
                 [
                   <Target size={17} />,
                   "Accuracy",
-                  "89.28%",
+                  "77.74%",
                   "Reported model accuracy",
                 ],
                 [
