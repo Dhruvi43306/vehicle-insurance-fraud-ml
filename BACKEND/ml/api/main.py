@@ -1,10 +1,25 @@
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import joblib
 import pandas as pd
 from pathlib import Path
-app = FastAPI()
+
+
+
+
+
+
+app = FastAPI(
+    title="Vehicle Insurance Fraud Detection API",
+    version="1.0.0"
+)
+
+
+
+
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -12,21 +27,53 @@ app.add_middleware(
         "https://vehicle-insurance-fraud-ml-2.onrender.com",
         "http://localhost:5173",
         "http://127.0.0.1:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-MODEL_PATH = BASE_DIR / "model" / "vehicle_fraud_final_model.pkl"
-model = joblib.load(MODEL_PATH)
-print("MODEL TYPE:", type(model))
 
-if hasattr(model, "feature_names_in_"):
-    print("MODEL FEATURES:")
-    print(model.feature_names_in_)
+
+
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+MODEL_PATH = BASE_DIR / "model" / "vehicle_fraud_final_model.pkl"
+
+
+
+
+
+
+print("Loading ML model...")
+print("Model path:", MODEL_PATH)
+
+try:
+    model = joblib.load(MODEL_PATH)
+
+    print("MODEL LOADED SUCCESSFULLY")
+    print("MODEL TYPE:", type(model))
+
+    if hasattr(model, "feature_names_in_"):
+        print("MODEL FEATURES:")
+        print(model.feature_names_in_)
+
+except Exception as e:
+    print("ERROR LOADING MODEL:")
+    print(repr(e))
+    raise
+
+
+
+
+
+
 class VehicleData(BaseModel):
+
     age_of_driver: int
     safety_rating: int
     annual_income: float
@@ -52,13 +99,38 @@ class VehicleData(BaseModel):
     form_defects: int
 
 
+
+
+
+
 @app.get("/")
 def home():
-    return {"message": "Vehicle Fraud Detection API is running"}
+
+    return {
+        "message": "Vehicle Fraud Detection API is running"
+    }
+
+
+
+
+
+
+@app.get("/health")
+def health():
+
+    return {
+        "status": "healthy",
+        "model_loaded": model is not None
+    }
+
+
+
+
 
 
 @app.post("/predict")
 def predict(data: VehicleData):
+
     input_data = pd.DataFrame([
         {
             "age_of_driver": data.age_of_driver,
@@ -87,14 +159,29 @@ def predict(data: VehicleData):
         }
     ])
 
-    prediction = model.predict(input_data)[0]
+    print("Received prediction request")
+    print(input_data)
 
-    if prediction == 1:
-        result = "Fraud"
-    else:
-        result = "Not Fraud"
+    try:
 
-    return {
-        "prediction": int(prediction),
-        "result": result
-    }
+        prediction = model.predict(input_data)[0]
+
+        if prediction == 1:
+            result = "Fraud"
+        else:
+            result = "Not Fraud"
+
+        return {
+            "prediction": int(prediction),
+            "result": result
+        }
+
+    except Exception as e:
+
+        print("PREDICTION ERROR:")
+        print(repr(e))
+
+        return {
+            "error": "Prediction failed",
+            "details": str(e)
+        }
