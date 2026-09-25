@@ -54,15 +54,9 @@ export default function Home() {
       icon: <GitBranch size={21} />,
     },
     {
-      value: '57.14%',
-      label: 'Training Accuracy',
-      desc: 'Training performance',
-      icon: <UserCheck size={21} />,
-    },
-    {
-      value: '53.56%',
-      label: 'Testing Accuracy',
-      desc: 'Testing performance',
+      value: '90.28%',
+      label: 'Accuracy',
+      desc: 'Performance',
       icon: <TrendingUp size={21} />,
     },
     {
