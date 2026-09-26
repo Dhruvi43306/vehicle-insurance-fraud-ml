@@ -1093,7 +1093,7 @@ export default function Prediction() {
 
         probability: isFraud ? 100 : 0,
 
-        modelUsed: "Decision Tree",
+        modelUsed: "Grediant Boosting",
 
         recommendation: isFraud
           ? "Review Recommended"
